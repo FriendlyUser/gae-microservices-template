@@ -39,6 +39,7 @@ steps:
         now=$(date --date="next Friday" +"%Y-%m-%d")
         chmod +x gcrgc.sh
         ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/build-cache/ttl-7d/python-cache $now
+        ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h $now
     waitFor:
       - deploy_dash
       - deploy_api
