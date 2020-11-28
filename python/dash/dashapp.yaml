@@ -8,6 +8,6 @@ basic_scaling:
 resources:
     cpu: 1
     memory_gb: 1
-    disk_size_gb: 10
+    disk_size_gb: 0.5
 
 entrypoint: gunicorn -b 0.0.0.0:8080 dash:server
