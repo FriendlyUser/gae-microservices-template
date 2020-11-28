@@ -25,7 +25,6 @@ steps:
         now=$(date --date="next Friday" +"%Y-%m-%d")
         chmod +x gcrgc.sh
         ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h $now
-        ./gcrgc.sh gcr.io/$PROJECT_ID/app-engine-tmp/app $now
         ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h/default/buildpack-app $now
     waitFor:
       - deploy_go
@@ -39,7 +38,6 @@ steps:
       - |
         now=$(date --date="next Friday" +"%Y-%m-%d")
         chmod +x gcrgc.sh
-        ./gcrgc.sh gcr.io/$PROJECT_ID/app-engine-tmp/build-cache/ttl-7d/python-cache $now
         ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/build-cache/ttl-7d/python-cache $now
     waitFor:
       - deploy_dash
