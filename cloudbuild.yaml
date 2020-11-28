@@ -6,29 +6,25 @@ steps:
     - '-c'
     - |
       sed -i 's#%DISCORD_WEBHOOK%#'${_DISCORD_WEBHOOK}'#g' goapp.yaml
-      sed -i 's/%MJ_APIKEY_PUBLIC%/'${_MJ_APIKEY_PUBLIC}'/g' goapp.yaml
-      sed -i 's/%MJ_APIKEY_PRIVATE%/'${_MJ_APIKEY_PRIVATE}'/g' goapp.yaml
-      sed -i 's/%TWITTER_BEARER_TOKEN%/'${TWITTER_BEARER_TOKEN}'/g' goapp.yaml
-      ls
-    dir: 'go'
+    dir: go
 
   - name: "gcr.io/cloud-builders/gcloud"
+    dir: go
     id: deploy_go
     args: ["app", "deploy", "goapp.yaml"]
     timeout: "600s"
-    dir: 'go'
   
   - name: "gcr.io/cloud-builders/gcloud"
     id: deploy_dash
     args: ["app", "deploy", "dashapp.yaml"]
     timeout: "600s"
-    dir: 'python/dash'
+    dir: python/dash
 
   - name: "gcr.io/cloud-builders/gcloud"
     id: deploy_api
     args: ["app", "deploy", "fastapi.yaml"]
     timeout: "600s"
-    dir: 'python/api'
+    dir: python/api
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
@@ -43,7 +39,7 @@ steps:
         ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h/default/buildpack-app $now
     waitFor:
       - deploy_go
-    dir: 'scripts'
+    dir: scripts
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
@@ -58,4 +54,4 @@ steps:
     waitFor:
       - deploy_dash
       - deploy_api
-    dir: 'scripts'
+    dir: scripts
