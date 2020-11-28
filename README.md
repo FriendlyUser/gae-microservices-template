@@ -14,3 +14,8 @@ Had difficulties getting golang to play nice with the folder structure. Any and 
 Make sure the google app engine api is enabled for your current project.
 
 See more details at my blog.
+
+
+### References
+
+* https://stackoverflow.com/questions/64236468/cloud-build-fails-to-deploy-to-google-app-engine-you-do-not-have-permission-to
