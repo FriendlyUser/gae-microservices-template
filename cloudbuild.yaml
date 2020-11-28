@@ -1,0 +1,61 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    id: govars
+    args:
+    - '-c'
+    - |
+      sed -i 's#%DISCORD_WEBHOOK%#'${_DISCORD_WEBHOOK}'#g' goapp.yaml
+      sed -i 's/%MJ_APIKEY_PUBLIC%/'${_MJ_APIKEY_PUBLIC}'/g' goapp.yaml
+      sed -i 's/%MJ_APIKEY_PRIVATE%/'${_MJ_APIKEY_PRIVATE}'/g' goapp.yaml
+      sed -i 's/%TWITTER_BEARER_TOKEN%/'${TWITTER_BEARER_TOKEN}'/g' goapp.yaml
+      ls
+    dir: 'go'
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: deploy_go
+    args: ["app", "deploy", "goapp.yaml"]
+    timeout: "600s"
+    dir: 'go'
+  
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: deploy_dash
+    args: ["app", "deploy", "dashapp.yaml"]
+    timeout: "600s"
+    dir: 'python/dash'
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: deploy_api
+    args: ["app", "deploy", "fastapi.yaml"]
+    timeout: "600s"
+    dir: 'python/api'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    id: cleanup1
+    args:
+      - '-c'
+      - |
+        now=$(date --date="next Friday" +"%Y-%m-%d")
+        chmod +x gcrgc.sh
+        ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h $now
+        ./gcrgc.sh gcr.io/$PROJECT_ID/app-engine-tmp/app $now
+        ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/app/ttl-2h/default/buildpack-app $now
+    waitFor:
+      - deploy_go
+    dir: 'scripts'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    id: cleanup2
+    args:
+      - '-c'
+      - |
+        now=$(date --date="next Friday" +"%Y-%m-%d")
+        chmod +x gcrgc.sh
+        ./gcrgc.sh gcr.io/$PROJECT_ID/app-engine-tmp/build-cache/ttl-7d/python-cache $now
+        ./gcrgc.sh us.gcr.io/$PROJECT_ID/app-engine-tmp/build-cache/ttl-7d/python-cache $now
+    waitFor:
+      - deploy_dash
+      - deploy_api
+    dir: 'scripts'

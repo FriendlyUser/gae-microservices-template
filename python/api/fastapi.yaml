@@ -1,0 +1,13 @@
+service: api
+runtime: python37
+
+basic_scaling:
+    max_instances: 1
+    idle_timeout: 10m
+
+resources:
+    cpu: 1
+    memory_gb: 1
+    disk_size_gb: 10
+
+entrypoint: gunicorn -w 4 -k uvicorn.workers.UvicornWorker pyfastapi:app
