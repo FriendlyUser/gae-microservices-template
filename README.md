@@ -9,7 +9,7 @@ Had difficulties getting golang to play nice with the folder structure. Any and 
 
 * google app engine enabled
 * google app engine api for cloud build
-* default cloud build instance has app engine deployer permissions
+* default cloud build instance has app engine deployer/ app engine admin permissions
 
 Make sure the google app engine api is enabled for your current project.
 
