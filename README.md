@@ -13,7 +13,7 @@ Had difficulties getting golang to play nice with the folder structure. Any and 
 
 Make sure the google app engine api is enabled for your current project.
 
-See more details at my blog.
+See more details at my [blog](https://friendlyuser.github.io).
 
 
 ### References
