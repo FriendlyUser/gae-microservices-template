@@ -10,7 +10,7 @@ In order to use this repo setup google cloud and google cloud build. You should 
 
 This repo is intended to illustrate how you can deploy microservices without paying for much storage costs (deletes all docker images after deployment).
 
-The actual projects are pretty simple (golang, python, etc ...). Within the google cloud console, you should be able to see each service individually. For each microservice, an `.yaml` file is required, I have relied on the default gae runtimes (standard python, golang, etc...), this makes it fairly simple to deploy new instances while keeping costs down. The provided 
+The actual projects are pretty simple (golang, python, etc ...). Within the google cloud console, you should be able to see each service individually. For each microservice, an `.yaml` file is required, I have relied on the default gae runtimes (standard python, golang, etc...), this makes it fairly simple to deploy new instances while keeping costs down. The provided folders are just examples and can be replaced easily.
 
 ### Requirements
 
